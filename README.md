@@ -15,6 +15,17 @@ npm start
 
 The site runs at http://localhost:3000.
 
+## GitHub Pages
+
+The GitHub Pages workflow publishes the contents of `public/` whenever `main`
+is updated. In the repository's **Settings > Pages**, set the build and
+deployment source to **GitHub Actions**. The workflow can also be started
+manually from the Actions tab.
+
+GitHub Pages cannot run the Express server. Its static version of the contact
+page therefore asks visitors to email instead of displaying the form. The
+form remains available when the site runs with the Node server.
+
 ## How it fits together
 
 ```
