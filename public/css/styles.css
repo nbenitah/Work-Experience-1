@@ -746,6 +746,48 @@ img {
   padding-top: 24px;
 }
 
+@media (max-width: 1024px) {
+  .site-header--home .container {
+    flex-wrap: wrap;
+  }
+
+  .site-header--home nav {
+    flex: 1 1 100%;
+  }
+
+  .site-header--home .nav-links {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .site-header--home .nav-links a {
+    padding: 6px 10px;
+    white-space: normal;
+  }
+
+  .site-header--home .nav-links .btn {
+    margin-left: 0;
+  }
+
+  .hero-inner {
+    gap: 32px;
+  }
+
+  .hero-text {
+    min-width: 0;
+  }
+
+  .hero-media {
+    width: 48%;
+    min-width: 0;
+  }
+
+  .card-grid,
+  .playbook-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 768px) {
   h1 {
     font-size: 40px;
@@ -759,6 +801,20 @@ img {
     padding: 64px 0;
   }
 
+  .hero {
+    padding: 48px 0 64px;
+  }
+
+  .hero-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 32px;
+  }
+
+  .hero-media {
+    width: 100%;
+  }
+
   .feature-row {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -769,12 +825,8 @@ img {
     order: 0;
   }
 
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .contact-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 40px;
   }
 
@@ -783,17 +835,55 @@ img {
   }
 }
 
+@media (max-width: 600px) {
+  .site-header--home nav {
+    width: 100%;
+  }
+
+  .site-header--home .nav-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .site-header--home .nav-links li:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .site-header--home .nav-links a {
+    padding: 8px;
+  }
+}
+
 @media (max-width: 480px) {
   h1 {
     font-size: 34px;
   }
 
-  .card-grid {
+  .section {
+    padding: 48px 0;
+  }
+
+  .page-header {
+    padding: 56px 0 40px;
+  }
+
+  .steps,
+  .pricing-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .card-grid,
+  .playbook-grid {
     grid-template-columns: 1fr;
   }
 
   .cta-body {
     padding: 32px 24px;
+  }
+
+  .cta-band img {
+    aspect-ratio: 16 / 9;
   }
 
   .footer-grid {
