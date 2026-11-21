@@ -25,21 +25,27 @@ test('contact endpoint rejects spam and delivers valid submissions', async (t) =
     });
     return { status: response.status, body: await response.json() };
   }
+// Spam cases: dropped silently, pretend success
+for (const overrides of [
+  { website: 'spam' },
+  { website: null },
+  { form_loaded_at: String(Date.now()) },
+  { form_loaded_at: '' },
+  { form_loaded_at: 'invalid' },
+  { form_loaded_at: String(Date.now() + 5000) },
+  
+]) {
+  const result = await submit(overrides);
+  assert.equal(result.status, 200);
+  assert.equal(result.body.ok, true); // Spam should be silently accepted
+  assert.equal(send.mock.callCount(), 0);
+}
+// Validation case: real user left a field empty
+const result = await submit({ message: '' });
+assert.equal(result.status, 400);
+assert.equal(result.body.ok, false);
+assert.equal(send.mock.callCount(), 0);
 
-  for (const overrides of [
-    { website: 'spam' },
-    { website: null },
-    { form_loaded_at: String(Date.now()) },
-    { form_loaded_at: '' },
-    { form_loaded_at: 'invalid' },
-    { form_loaded_at: String(Date.now() + 5000) },
-    { message: '' },
-  ]) {
-    const result = await submit(overrides);
-    assert.equal(result.status, 400);
-    assert.equal(result.body.ok, false);
-    assert.equal(send.mock.callCount(), 0);
-  }
   const valid = await submit({});
   assert.equal(valid.status, 200);
   assert.equal(valid.body.ok, true);

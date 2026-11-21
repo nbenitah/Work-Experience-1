@@ -18,12 +18,16 @@ app.post('/contact', (req, res) => {
   const loadedAt = typeof timestamp === 'string' && /^\d+$/.test(timestamp)
     ? Number(timestamp)
     : NaN;
-  if (typeof website !== 'string' || website.trim() !== '') {
-    return res.status(400).json({ ok: false, error: 'Unable to send this submission. Please email hello@calicomedia.co instead.' });
+//Spam check: honeypot + timing - drop silently
+const isHoneypotFilled = typeof website !== 'string' || website.trim() !== '';
+const isTooFast = !Number.isSafeInteger(loadedAt) || loadedAt <= 0 || Date.now() - loadedAt < 3000;
+
+  if (isHoneypotFilled || isTooFast) {
+    // Drop it -do NOT call sendToSupport
+    //But pretend it worked, so bots think it went through
+    return res.json({ ok: true });
   }
-  if (!Number.isSafeInteger(loadedAt) || loadedAt <= 0 || Date.now() - loadedAt < 3000) {
-    return res.status(400).json({ ok: false, error: 'Please wait a few seconds before sending your message.' });
-  }
+    
 
   if (!name || !email || !message) {
     return res.status(400).json({ ok: false, error: 'Please fill in your name, email and message.' });
