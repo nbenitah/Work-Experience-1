@@ -28,7 +28,14 @@ data/              Local contact form submissions (git-ignored)
 
 The contact form posts to `POST /contact`. The server checks the fields and hands the submission to `sendToSupport()` in `server/support.js`.
 
+The form records when it becomes available and resets that timestamp after a
+successful submission or when restored from the browser's back-forward cache.
+The server rejects submissions with a filled honeypot or a missing, invalid,
+future, or less-than-three-second-old timestamp.
+
 In production `sendToSupport()` emails support@calicomedia.co. Locally it appends one JSON line per submission to `data/submissions.jsonl` and logs it to the console instead, so you can see exactly what support would receive:
+
+Run the contact form regression tests with `node --test tests/contact.test.js`.
 
 ## Contributing
 
